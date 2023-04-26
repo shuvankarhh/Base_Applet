@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\ActionController;
+use App\Http\Controllers\Admin\SetupController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SetClientController;
+use App\Http\Controllers\SetProjectController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\Admin\SetupController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ApiAccessController;
-use App\Http\Controllers\Admin\UserController;
-use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,32 +21,31 @@ use Illuminate\Http\Request;
 
 
 Route::middleware(['auth','RestrictedUrl'])->group(function(){
-
-    //Route::get('/{home?}', [HomeController::class, 'index'])->name('home');
-    Route::get('/fileupload', [InvoiceController::class, 'index'])->name("upload");
-    Route::post('/fileupload', [InvoiceController::class, 'saveFile'])->name("saveFile");
-    Route::get('/reupload', [InvoiceController::class, 'reupload'])->name("reupload");
-
+    Route::get('action', [ActionController::class, 'index'])->name('action');
 });
 
 
 Route::middleware(['auth'])->group(function(){
+    Route::get('setup', [SetupController::class, 'index'])->name('Setup');
 
-    Route::get('/setup', [SetupController::class, 'index'])->name('Setup');
+    Route::get('set-client', [SetClientController::class, 'create'])->name('set-client.create');
+    Route::post('set-client', [SetClientController::class, 'store'])->name('set-client.store');
 
-    Route::get('/step_one', [SetupController::class, 'createStepOne'])->name('StepOne');
-    Route::post('/step_one', [SetupController::class, 'postCreateStepOne'])->name('PostStepOne');
+    Route::get('set-project', [SetProjectController::class, 'create'])->name('set-project.create');
+    Route::post('set-project', [SetProjectController::class, 'store'])->name('set-project.store');
 
-    Route::get('/step_two', [SetupController::class, 'createStepTwo'])->name('StepTwo');
-    Route::post('/step_two', [SetupController::class, 'postcreateStepTwo'])->name('PostStepTwo');
+    Route::get('step_one', [SetupController::class, 'createStepOne'])->name('StepOne');
+    Route::post('step_one', [SetupController::class, 'postCreateStepOne'])->name('PostStepOne');
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::get('/user/create', [UserController::class, 'create'])->name('userCreate');
-    Route::post('/users/create', [UserController::class, 'store'])->name('storeUser');
-    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
-    Route::post('/user/edit/{id}', [UserController::class, 'update'])->name('userUpdate');
-    Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('userDelete');
-    
+    Route::get('step_two', [SetupController::class, 'createStepTwo'])->name('StepTwo');
+    Route::post('step_two', [SetupController::class, 'postcreateStepTwo'])->name('PostStepTwo');
+
+    Route::get('users', [UserController::class, 'index'])->name('users');
+    Route::get('user/create', [UserController::class, 'create'])->name('userCreate');
+    Route::post('users/create', [UserController::class, 'store'])->name('storeUser');
+    Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
+    Route::post('user/edit/{id}', [UserController::class, 'update'])->name('userUpdate');
+    Route::get('user/delete/{id}', [UserController::class, 'delete'])->name('userDelete');
 });
 
 Route::get('/', function () {

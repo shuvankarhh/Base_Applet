@@ -26,7 +26,7 @@ class SetupController extends Controller
 
         return view('setup.index', compact('client', 'project'));
     }
-  
+
     /**
      * Show the step One Form for creating a new product.
      *
@@ -35,10 +35,10 @@ class SetupController extends Controller
     public function createStepOne(Request $request)
     {
         $clients = Client::with('company')->get()->pluck('company.Company_Name', 'Client_ID')->prepend('Please select', '')->all();
-        return view('setup.step_one', compact('clients'));
+        return view('setup.set-client', compact('clients'));
     }
 
-    /**  
+    /**
      * Post Request to store step1 info in session
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,7 +55,7 @@ class SetupController extends Controller
         return redirect()->route('StepTwo');
     }
 
-    
+
     /**
      * Show the step One Form for creating a new product.
      *
@@ -64,20 +64,20 @@ class SetupController extends Controller
     public function createStepTwo(Request $request)
     {
         if(!\Session::has('client_id')){
-            return redirect()->route('StepOne'); 
+            return redirect()->route('StepOne');
         }
 
         $clientID = $request->session()->get('client_id');
-        
+
         $c = Client::whereHas('company', function($q){
             $q->where('Company_Name','=', '20th Century Props');
         })->first();
-        
+
         $projects = Project::where('Client_ID', $clientID)->pluck('Project_Name', 'Project_ID')->prepend('Please select', '')->all();
-  
-        return view('setup.step_two', compact('projects'));
+
+        return view('setup.set-project', compact('projects'));
     }
-  
+
     /**
      * Show the step One Form for creating a new product.
      *
@@ -90,9 +90,8 @@ class SetupController extends Controller
         ]);
 
         $request->session()->put('project_id', $request->get('project_id'));
-        
-        // goes to file upload
-        return redirect()->route('upload');
+
+        return redirect()->route('action');
     }
 
 }

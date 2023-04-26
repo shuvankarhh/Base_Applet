@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{--<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">--}}
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,21 +13,21 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <!-- Fonts -->
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+{{--        <link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
+{{--        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-        <link href="{{ env('cssOverWrite', '') }}" rel="stylesheet">
-
+        <link href="{{ asset(config('applet.replace_css')) }}" rel="stylesheet">
+{{--            <link href="{{ env('cssOverWrite', '') }}" rel="stylesheet">--}}
     </head>
 <body >
 
     <div x-data={loading:false}>
         <div class="loading" x-show="loading" x-on:loading.window="loading = !loading" >Loading...</div>
     </div>
-    
+
 
     <header>
 
@@ -48,7 +48,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto text-white">
 
-                        
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -58,22 +58,22 @@
                             @endif
 
                         @else
-                           
+
                             <x-menuRight></x-menuRight>
                             <x-setupDetails></x-setupDetails>
-                            
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    
+
                                     @role('admin')
                                         <a class="dropdown-item" href="{{ route('users') }}">{{ __('User management') }}</a>
                                         <a class="dropdown-item" href="{{ route('userCreate') }}">{{ __('Create User') }}</a>
                                     @endrole
-                                    
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -87,7 +87,7 @@
                             </li>
                         @endguest
                     </ul>
-                    
+
                 </div>
             </div>
         </nav>

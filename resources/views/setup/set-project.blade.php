@@ -5,17 +5,16 @@
     <div class="row h-100 w-100 justify-content-center align-items-center align-content-center flex-column m-auto">
         <div class="col-md-8">
         <div class="card">
-                <div class="card-header">{{ __('Setup - Step Two') }}</div>
+                <div class="card-header">{{ __('Setup - Set the project') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" id="project_id_form" action="{{ route('PostStepTwo') }}" x-data="submitProject" @submit.prevent="submitForm" >
+                    <form method="POST" id="project_id_form" action="{{ route('set-project.store') }}" x-data="submitProject" @submit.prevent="submitForm" >
                         @csrf
 
                         <div class="row mb-3">
                             <label for="project_id" class="col-md-4 col-form-label text-md-end">{{ __('Select Project') }}</label>
 
                             <div class="col-md-6">
-                       
                                 <select name="project_id" class="form-control" required x-on:change="submitForm">
                                     @foreach ($projects as $key => $value)
                                     <option value="{{ $key }}"> {{$value}}</option>

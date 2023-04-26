@@ -20,11 +20,13 @@ class MenuLeft extends Component
 
     private function menu()
     {
-        $fileAddress = env('menuStepup', '');
+        $fileAddress = config('applet.left_menu');
         $fileContent = '{"left":[]}';
-        if(@fopen($fileAddress, 'r')){
-            $fileContent =  file_get_contents($fileAddress);
+
+        if (@fopen($fileAddress, 'r')) {
+            $fileContent = file_get_contents($fileAddress);
         }
+
         return json_decode($fileContent, true)['left'];
     }
 
