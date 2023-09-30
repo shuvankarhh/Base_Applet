@@ -14,11 +14,13 @@ class SetProjectController extends Controller
         }
 
         $clientID = $request->session()->get('client_id');
-
-        $projects = Project::where('Client_ID', $clientID)
-            ->pluck('Project_Name', 'Project_ID')
-            ->prepend('Please select', '')
-            ->all();
+        
+        $projects = Project::whereHas('userProject', function ($query) use ($clientID) {
+            $query->where('User_ID', auth()->id())->where('Client_ID', $clientID);
+        })
+        ->pluck('Project_Name', 'Project_ID')
+        ->prepend('Please select', '')
+        ->all();
 
         return view('setup.set-project', compact('projects'));
     }
